@@ -37,7 +37,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-
+//test cli
         $this->validate(
             $request,
             [
