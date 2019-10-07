@@ -41,7 +41,7 @@ return [
         ],
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', 'sql203.epizy.com'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'epiz_24595786_blog'),
             'username' => env('DB_USERNAME', 'epiz_24595786'),
