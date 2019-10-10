@@ -1,6 +1,7 @@
 import Cliente from './components/Cliente.vue';
 import Funcionario from './components/Funcionario.vue';
 import Home from './components/Home.vue';
+import Login from './components/auth/Login.vue';
 import Passport from './components/Passport.vue';
 
 /*import Login from './components/auth/Login'
@@ -20,7 +21,9 @@ let routes = [
   { path: '/cliente', component: Cliente },
   { path: '/funcionario', component: Funcionario },
   { path: '/passport', component: Passport },
-  { path: '/home', component: Home }
+  { path: '/home', component: Home },
+  { path: '/', component: Login }
+
 ]
 
 export default routes

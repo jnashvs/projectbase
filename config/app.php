@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'wXQORWrFAJ63T9jByIIyIspQy3acNTQZpUbtGIWz4jw='),
+    'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 

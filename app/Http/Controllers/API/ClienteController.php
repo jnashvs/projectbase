@@ -29,6 +29,16 @@ class ClienteController extends Controller
         return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
     }
 
+    public function findCliente()
+    {
+        if ($search = \Request::get('q')) {
+            return Cliente::where('nome', 'LIKE', "%$search%")
+                ->orderBy('id', 'desc')->paginate(5);
+        } else {
+            return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -37,7 +47,6 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-//test cli
         $this->validate(
             $request,
             [

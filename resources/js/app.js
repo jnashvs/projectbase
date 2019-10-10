@@ -10,6 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import VueRouter from 'vue-router'
+import _ from 'lodash';
 Vue.use(VueRouter)
 
 require('./componentes'); // ------- txoma td componentes

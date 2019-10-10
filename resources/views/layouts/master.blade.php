@@ -138,7 +138,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         document.getElementById('delete-form').submit();
                 ">
                 <i class="nav-icon fa fa-power-off"></i>
-                Logout
+                <p>Logout</p>
+                
               </a>
               <form method="POST" action="{{ route('logout') }}" id="delete-form" style="display:none;">
                 @csrf

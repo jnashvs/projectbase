@@ -1,11 +1,120 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-6 col-xl-3">
         <div class="card">
-          <div class="card-header">Home componente</div>
-
-          <div class="card-body">I'm an example component.</div>
+          <!---->
+          <!---->
+          <div class="card-body">
+            <div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center icon-warning">
+                    <i class="ti-server"></i>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="numbers">
+                    <p>Capacity</p>105GB
+                  </div>
+                </div>
+              </div>
+              <div>
+                <hr />
+                <div class="stats">
+                  <i class="ti-reload"></i> Updated now
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <!---->
+          <!---->
+          <div class="card-body">
+            <div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center icon-success">
+                    <i class="ti-wallet"></i>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="numbers">
+                    <p>Revenue</p>$1,345
+                  </div>
+                </div>
+              </div>
+              <div>
+                <hr />
+                <div class="stats">
+                  <i class="ti-calendar"></i> Last day
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <!---->
+          <!---->
+          <div class="card-body">
+            <div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center icon-danger">
+                    <i class="ti-pulse"></i>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="numbers">
+                    <p>Errors</p>23
+                  </div>
+                </div>
+              </div>
+              <div>
+                <hr />
+                <div class="stats">
+                  <i class="ti-timer"></i> In the last hour
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <!---->
+          <!---->
+          <div class="card-body">
+            <div>
+              <div class="row">
+                <div class="col-5">
+                  <div class="icon-big text-center icon-info">
+                    <i class="ti-twitter-alt"></i>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="numbers">
+                    <p>Followers</p>+45
+                  </div>
+                </div>
+              </div>
+              <div>
+                <hr />
+                <div class="stats">
+                  <i class="ti-reload"></i> Updated now
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
         </div>
       </div>
     </div>
@@ -16,7 +125,7 @@
 <script>
 export default {
   mounted() {
-    console.log("Component mounted.");
+    console.log("Component HOME.");
   }
 };
 </script>

@@ -8,6 +8,7 @@
               <div class="col-md-4 col-sm-6 col-lg-4">
                 <span class="card-title">
                   <input
+                    @keyup="procurar"
                     type="text"
                     class="form-control input-sm"
                     placeholder="Nome Cliente ..."
@@ -198,12 +199,16 @@ export default {
     };
   },
   methods: {
+    procurar: _.debounce(() => {
+      Fire.$emit("searching");
+      //Fire.$emit('nome de evento a chamar em qq parte de APP') => txoma event na qq
+    }, 1000),
+
     getPagination(page = 1) {
-			axios.get('api/cliente?page=' + page)
-				.then(response => {
-					this.clientes = response.data;
-				});
-		},
+      axios.get("api/cliente?page=" + page).then(response => {
+        this.clientes = response.data;
+      });
+    },
     newModal() {
       this.editmode = false;
       this.form.reset();
@@ -278,17 +283,21 @@ export default {
     }
   },
   created() {
+    Fire.$on("searching", () => {
+      let query = this.nome;
+
+      axios
+        .get("api/findCliente?q="+query)
+        .then(({ data }) => (this.clientes = data))
+        .catch(() => {
+                console.log('erro findUser');
+        });
+    });
+
     this.$Progress.start();
     this.loadClientes();
     this.$Progress.finish();
   },
-  computed: {
-    filtarclientes: function() {
-      return this.clientes.filter(cliente => {
-        return cliente.nome.match(this.nome);
-      });
-    }
-  }
 
   // td drt ate
 };
