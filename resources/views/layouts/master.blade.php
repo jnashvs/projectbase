@@ -10,10 +10,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Starter</title>
+  <title>Car Wash</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <link rel="stylesheet" href="/css/app.css">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -43,11 +48,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
+      <!-- Brand Logo 
       <a href="index3.html" class="brand-link">
         <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
       </a>
+      -->
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -76,6 +82,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>
+                  Prestação Serviços
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/cliente" class="nav-link">
+                    <i class="nav-icon fas fa-building"></i>
+                    <p>Agendamento</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/funcionario" class="nav-link">
+                    <i class="nav-icon fas fa-project-diagram"></i>
+                    <p>Pagamentos</p>
+                  </router-link>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  Gestão Stock
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/cliente" class="nav-link">
+                    <i class="nav-icon fas fa-product"></i>
+                    <p>+ Produtos</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/funcionario" class="nav-link">
+                    <i class="nav-icon fas fa-project-diagram"></i>
+                    <p>+ Compras</p>
+                  </router-link>
+                </li>
+
+              </ul>
+            </li>
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
                   Gestao Interna
                 </p>
               </a>
@@ -96,9 +149,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cog"></i>
+                <i class="nav-icon fas fa-users"></i>
                 <p>
-                  Entidades
+                  Entidades Externas
                 </p>
               </a>
               <ul class="nav nav-treeview">
@@ -111,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                   <router-link to="/funcionario" class="nav-link">
                     <i class="nav-icon fas fa-project-diagram"></i>
-                    <p>Funcionario</p>
+                    <p>Fornecedor</p>
                   </router-link>
                 </li>
 
@@ -119,17 +172,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
 
             <li class="nav-item">
-              <router-link to="/passport" class="nav-link">
-                <i class="nav-icon fas fa-star"></i>
-                <p>Passport</p>
-              </router-link>
-            </li>
-            
-            <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user"></i>
                 <p>
-                  Contas </p>
+                  Gestão Utilizadores
+                </p>
               </a>
             </li>
             <li class="nav-item">
@@ -137,9 +184,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         event.preventDefault();
                         document.getElementById('delete-form').submit();
                 ">
-                <i class="nav-icon fa fa-power-off"></i>
-                <p>Logout</p>
-                
+                <i class="logout nav-icon fa fa-power-off"></i>
+                <p class="logout" id="logout">Logout</p>
+
               </a>
               <form method="POST" action="{{ route('logout') }}" id="delete-form" style="display:none;">
                 @csrf
@@ -162,7 +209,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Starter Page</li>
+                <li class="breadcrumb-item active">Topic</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->

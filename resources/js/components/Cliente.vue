@@ -1,265 +1,195 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-md-4 col-sm-6 col-lg-4">
-                <span class="card-title">
-                  <input
-                    @keyup="procurar"
-                    type="text"
-                    class="form-control input-sm"
-                    placeholder="Nome Cliente ..."
-                    v-model="nome"
-                  />
-                </span>
-              </div>
+  <div id="app">
+    <v-app id="inspire">
+      <v-data-table :headers="headers" :items="clientes" sort-by="nome" class="elevation-1">
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>Clientes</v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-spacer></v-spacer>
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn color="primary" dark class="mb-2" v-on="on">Novo Cliente</v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">{{ formTitle }}</span>
+                </v-card-title>
 
-              <div class="col-md-8 col-sm-6 col-lg-8">
-                <div class="card-tools float-right">
-                  <a class="btn btn-success" @click="newModal()">
-                    Novo Cliente
-                    <i class="fa fa-plus"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Veículo</th>
-                  <th>Telefone</th>
-                  <th>Morada</th>
-                  <th>Criado Em</th>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          v-model="editedItem.nome"
+                          :rules="nomeRules"
+                          label="Nome"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          v-model="editedItem.telefone"
+                          :rules="telefoneRules"
+                          label="Telefone"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          v-model="editedItem.veiculo"
+                          :rules="veiculoRules"
+                          label="Veiculo"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="6">
+                        <v-text-field
+                          v-model="editedItem.morada"
+                          :rules="moradaRules"
+                          label="Morada"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="6">
+                        <v-text-field
+                          v-model="editedItem.email"
+                          :rules="emailRules"
+                          label="E-mail"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
 
-                  <th>Acção</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="cliente in clientes.data" :key="cliente.id">
-                  <td>{{cliente.id}}</td>
-                  <td>{{cliente.nome}}</td>
-                  <td>{{cliente.veiculo}}</td>
-                  <td>{{cliente.telefone}}</td>
-                  <td>{{cliente.morada}}</td>
-                  <td>{{cliente.created_at | dateConversor}}</td>
+                <!-- ate aki -->
 
-                  <td>
-                    <a href="#" @click="editModal(cliente)">
-                      <i class="fa fa-edit"></i>
-                    </a>
-                    /
-                    <a href="#" @click="deleteCliente(cliente.id)">
-                      <i class="fa fa-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- /.card-body -->
-          <div class="card-footer">
-            <pagination :data="clientes" @pagination-change-page="getPagination"></pagination>
-          </div>
-        </div>
-        <!-- /.card -->
-      </div>
-    </div>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="save"
+                    v-bind:disabled="disableButton"
+                  >Guardar</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-toolbar>
+        </template>
 
-    <!-- START MODAL POPUP -->
-
-    <div
-      class="modal fade"
-      id="createCliente"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 v-show="!editmode" class="modal-title" id="exampleModalLabel">Criar Novo Cliente</h5>
-            <h5
-              v-show="editmode"
-              class="modal-title"
-              id="exampleModalLabel"
-            >Actualizar Dados Cliente</h5>
-
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <form @submit.prevent="editmode ? updateCliente() : createCliente()">
-            <div class="modal-body">
-              <!-- START FORM FOR MODAL -->
-
-              <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-12 col-sm-12">
-                  <div class="form-group">
-                    <input
-                      v-model="form.nome"
-                      type="text"
-                      name="nome"
-                      placeholder="Nome"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.has('nome') }"
-                    />
-                    <has-error :form="form" field="nome"></has-error>
-                  </div>
-
-                  <div class="form-group">
-                    <input
-                      v-model="form.telefone"
-                      type="text"
-                      name="telefone"
-                      placeholder="Telefone"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.has('telefone') }"
-                    />
-                    <has-error :form="form" field="telefone"></has-error>
-                  </div>
-
-                  <div class="form-group">
-                    <input
-                      v-model="form.veiculo"
-                      type="text"
-                      name="veiculo"
-                      placeholder="Veiculo"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.has('veiculo') }"
-                    />
-                    <has-error :form="form" field="veiculo"></has-error>
-                  </div>
-
-                  <div class="form-group">
-                    <input
-                      v-model="form.morada"
-                      type="text"
-                      name="morada"
-                      placeholder="Morada"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.has('morada') }"
-                    />
-                    <has-error :form="form" field="morada"></has-error>
-                  </div>
-
-                  <div class="form-group">
-                    <input
-                      v-model="form.email"
-                      type="text"
-                      name="email"
-                      placeholder="Email"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.has('email') }"
-                    />
-                    <has-error :form="form" field="email"></has-error>
-                  </div>
-                </div>
-              </div>
-              <!-- END FORM MODAL -->
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-              <button v-show="!editmode" type="submit" class="btn btn-primary">Criar</button>
-              <button v-show="editmode" type="submit" class="btn btn-primary">Actualizar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- END MODAL POPUP -->
+        <template v-slot:item.action="{ item }">
+          <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+          <v-icon small @click="deleteItem(item.id)">delete</v-icon>
+        </template>
+        <template v-slot:no-data>
+          <v-btn color="primary" @click="initialize">Reset</v-btn>
+        </template>
+      </v-data-table>
+    </v-app>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data: () => {
     return {
-      nome: "",
-      editmode: false,
-      clientes: {},
-      form: new Form({
+      editMode: false,
+      dialog: false,
+      count: 0,
+      headers: [
+        { text: "Nome", value: "nome" },
+        { text: "Telefone", value: "telefone" },
+        { text: "Veiculo ", value: "veiculo" },
+        { text: "Morada ", value: "morada" },
+        { text: "Criado Em ", value: "created_at" },
+        { text: "Actions", value: "action", sortable: false }
+      ],
+      clientes: [],
+      editedIndex: -1,
+      editedItem: {
         id: "",
         nome: "",
-        morada: "",
-        telefone: "",
         veiculo: "",
-        email: ""
-      })
+        telefone: "",
+        morada: "",
+        email: "",
+        created_at: ""
+      },
+      defaultItem: {
+        id: "",
+        nome: "",
+        veiculo: "",
+        telefone: "",
+        morada: "",
+        email: "",
+        created_at: ""
+      },
+      emailRules: [
+        //v => !!v || "E-mail is required",
+        v => (v != null ? /.+@.+/.test(v) || "E-mail must be valid" : null)
+      ],
+      nomeRules: [
+        v => !!v || "Nome is required",
+        v => v.length <= 250 || "Nome must be less than 250 characters"
+      ],
+      moradaRules: [
+        //v => !!v || "Morada is required",
+        v => v.length <= 250 || "Morada must be less than 250 characters"
+      ],
+      veiculoRules: [
+        v => !!v || "Veiculo is required",
+        v => v.length <= 50 || "Veiculo must be less than 50 characters"
+      ],
+      telefoneRules: [
+        v => !!v || "Telefone is required",
+        v => v.number || "Telefone must be integer"
+      ]
     };
   },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "Novo Cliente" : "Editar Cliente";
+    },
+    disableButton: function() {
+
+      return this.editedItem.nome.length < 1 ||
+        this.editedItem.telefone < 1  ||
+        this.editedItem.veiculo.length < 1;
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  created() {
+    this.initialize();
+  },
+
   methods: {
-    procurar: _.debounce(() => {
-      Fire.$emit("searching");
-      //Fire.$emit('nome de evento a chamar em qq parte de APP') => txoma event na qq
-    }, 1000),
-
-    getPagination(page = 1) {
-      axios.get("api/cliente?page=" + page).then(response => {
-        this.clientes = response.data;
-      });
-    },
-    newModal() {
-      this.editmode = false;
-      this.form.reset();
-      $("#createCliente").modal("show");
-    },
-    editModal(cliente) {
-      this.editmode = true;
-      this.form.reset();
-      $("#createCliente").modal("show");
-      this.form.fill(cliente);
-    },
-    createCliente() {
-      this.form
-        .post("/api/cliente")
-        .then(() => {
-          this.loadClientes();
-          $("#createCliente").modal("hide");
-          this.form.reset();
-          this.$swal("Good job!", "Cliente criado com sucesso!", "success");
-        })
-        .catch(() => {
-          console.log("errorr on create Cliente component");
-        });
-    },
-    updateCliente() {
-      this.form
-        .put("api/cliente/" + this.form.id)
-        .then(() => {
-          this.$Progress.start();
-
-          this.loadClientes();
-
-          $("#createCliente").modal("hide");
-          this.form.reset();
-          this.$swal(
-            "Good job!",
-            "Dados Cliente atualizado com sucesso!",
-            "success"
-          );
-        })
-        .catch(() => {
-          console.log("errorr on update cliente component");
-        });
-    },
-    loadClientes() {
+    initialize() {
       this.$Progress.start();
-
-      axios.get("api/cliente/").then(({ data }) => (this.clientes = data));
+      axios.get("api/cliente").then(response => {
+        this.clientes = response.data.data;
+      });
       this.$Progress.finish();
     },
-    deleteCliente(id) {
+
+    editItem(item) {
+      this.editMode = true;
+      this.editedIndex = this.clientes.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    deleteItem(id) {
       this.$swal({
         title: "Tens certeza?",
         text: "Não será possível reverter isso!",
@@ -270,35 +200,56 @@ export default {
         confirmButtonText: "Sim, apagar isso!"
       }).then(result => {
         // Send request to the server
-        this.form
+        console.log("before delet yess");
+        axios
           .delete("api/cliente/" + id)
           .then(() => {
-            this.loadClientes();
+            console.log("delet yess");
+            this.initialize();
             this.$swal("Deleted!", "Cliente removido com sucesso!", "success");
           })
           .catch(() => {
             this.$swal("Failed!", "There was something wronge.", "warning");
           });
       });
+    },
+
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        axios
+          .put("/api/cliente/" + this.editedItem.id, this.editedItem)
+          .then(() => {
+            this.$swal(
+              "Good job!",
+              "Cliente atualizado com sucesso!",
+              "success"
+            );
+          })
+          .catch(e => {
+            console.log("errorr on update Cliente component", e);
+          });
+      } else {
+        axios
+          .post("/api/cliente", this.editedItem)
+          .then(() => {
+            this.$swal("Good job!", "Cliente criado com sucesso!", "success");
+          })
+          .catch(e => {
+            console.log("errorr on create Cliente component", e);
+          });
+      }
+
+      this.initialize();
+      this.close();
     }
-  },
-  created() {
-    Fire.$on("searching", () => {
-      let query = this.nome;
-
-      axios
-        .get("api/findCliente?q="+query)
-        .then(({ data }) => (this.clientes = data))
-        .catch(() => {
-                console.log('erro findUser');
-        });
-    });
-
-    this.$Progress.start();
-    this.loadClientes();
-    this.$Progress.finish();
-  },
-
-  // td drt ate
+  }
 };
 </script>

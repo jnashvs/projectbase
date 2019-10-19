@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-
+use App\Http\Resources\ClienteResource;
 
 class ClienteController extends Controller
 {
@@ -26,7 +25,8 @@ class ClienteController extends Controller
 
     public function index()
     {
-        return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
+        return ClienteResource::collection(Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->get());
+        //return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
     }
 
     public function findCliente()
@@ -86,21 +86,20 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        $clienteUpdate = Cliente::findOrFail($id);
-
+        $cliente = Cliente::findOrFail($request->id);
         $this->validate($request, [
             'nome' => 'required|max:250',
             'morada' => 'max:250',
-            'veiculo' => 'required|max:250',
+            'veiculo' => 'required|max:50',
             'email' => 'sometimes|email',
             'telefone' => 'required|numeric'
         ]);
 
-        $clienteUpdate->update($request->all());
+        $cliente->update($request->all());
 
-        if ($clienteUpdate)
+        if ($cliente)
             return ['message', 'Dados Cliente atualizado com sucesso'];
     }
 

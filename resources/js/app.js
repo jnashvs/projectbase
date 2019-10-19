@@ -10,8 +10,15 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import VueRouter from 'vue-router'
-import _ from 'lodash';
+
+import _ from 'lodash'
 Vue.use(VueRouter)
+
+//-------- vuetify -------------
+import Vuetify from 'vuetify'
+
+Vue.use(Vuetify)
+//const opts = {}
 
 require('./componentes'); // ------- txoma td componentes
 
@@ -47,6 +54,10 @@ const router = new VueRouter({
 const app = new Vue({
   el: '#app',
   //store: store,
-  router
+  router,
+  //render: app => app(App)
+  vuetify: new Vuetify()
+
 });
 
+export default app;
