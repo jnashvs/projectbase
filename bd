@@ -1,0 +1,773 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Tempo de geração: 14-Mar-2020 às 23:04
+-- Versão do servidor: 5.7.26
+-- versão do PHP: 7.3.7
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Banco de dados: `pmanager`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `agendamento`
+--
+
+CREATE TABLE `agendamento` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titulo` varchar(400) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `estado` int(11) DEFAULT NULL,
+  `horario` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cliente`
+--
+
+CREATE TABLE `cliente` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `veiculo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `morada` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `cliente`
+--
+
+INSERT INTO `cliente` (`id`, `nome`, `veiculo`, `telefone`, `morada`, `email`, `user_id`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'Jorge', 'st12kd', 965613928, 'S Vicente', 'jnashvs@gmail.com', 2, 1, '2019-09-09 23:00:00', '2019-10-03 22:27:12'),
+(2, 'Mira', 'st89-wr', 965613928, 'Caiscais e Estoril - Portugal', 'mira@gmail.com', 2, 1, '2019-09-14 00:57:09', '2019-09-15 21:08:17'),
+(3, 'Luana Evora', 'st-23-dhd', 9726627, 'Tarrafal', 'luana@gmail.com', 3, 1, '2019-09-14 00:59:16', '2019-09-14 00:59:16'),
+(4, 'Joao Caudio', 'sv-31-fd', 12345, 'Palmarejo', 'xandu@gmail.com', 2, 1, '2019-09-14 09:33:58', '2019-09-15 21:36:45'),
+(5, 'Josimar', 'st-78-kp', 234567, 'chao bom', 'josimar@gmail.com', 4, -1, '2019-09-14 22:22:34', '2020-01-29 23:10:32'),
+(6, 'Anira Borges', 'st-697-ij', 2686867, 'Tarrafal', 'anira@gmail.com', 3, 1, '2019-09-15 21:44:22', '2019-10-03 19:03:56'),
+(7, 'Jose', 'cl-234-398', 945744743, 'Covilha', 'djimmy@gmail.com', 4, -1, '2019-09-24 23:23:11', '2020-01-29 23:10:26'),
+(8, 'Luis da Silva', 'st-45-24-cv', 9179545, 'Tarrafal - Santiago', 'luismendes@gmail.com', 4, 1, '2019-10-03 19:03:43', '2019-10-03 19:03:43'),
+(9, 'Helder Correia', 'st23774-wr', 2686867, 'Vila Real - Portugal', 'helder@gmail.com', 2, 1, '2019-10-03 22:27:48', '2019-10-16 20:25:57'),
+(10, 'Joana', 'as-456-hkk', 23456789, 'Hollanda, Rotterdan', 'joana@gmail.com', 4, 1, '2019-10-08 23:17:57', '2019-10-16 20:25:49'),
+(16, 'Renato', 'sv-98-pt', 98765, 'cascais', '9@gth.pt', 2, 1, '2019-10-18 20:15:06', '2019-10-21 20:45:51'),
+(17, 'Luis Miguel', 'BMW 2019', 345679888, 'Massama', 'miguel@viado.com', 2, 1, '2019-10-18 20:49:29', '2019-12-22 00:07:30'),
+(19, 'Ana', 'gst-228-2019', 45678, 'Calabaceira', 'ana@out.fr', 3, 1, '2019-10-19 17:04:47', '2020-01-29 23:09:53'),
+(20, 'Will', 'toyota', 56789, 'Txom Bom', 'will@dgd.es', 2, 1, '2019-10-19 17:06:19', '2019-10-20 21:53:39'),
+(22, 'Leo', 'hilux', 5975437, 'Txan d\' Labada', 'leopoldina@outlook.cv', 3, 1, '2019-10-21 18:07:35', '2019-12-22 00:11:33'),
+(23, 'Zemas', 'golf 4', 75645343, 'Santarem', 'zemas.pt@sgsf.cv', 3, 1, '2019-10-23 20:45:01', '2019-12-22 00:48:09'),
+(24, 'Afonso', 'jeep', 878788, 'A dos cunhados', 'afonso@slingshot.pt', 2, 1, '2019-12-17 14:12:12', '2020-02-02 11:42:12'),
+(25, 'Jorge Maradona', 'ST - 23  - 2019', 9285059, 'Tarrafal', 'jnashvs@gmail.com', 2, -1, '2019-12-21 16:02:54', '2020-02-02 11:41:53'),
+(26, 'Celia', 'ST-23-JZ', 92848579, 'Alges', 'celia@gmail.com', 2, -1, '2019-12-21 16:08:47', '2020-01-31 23:26:03'),
+(27, 'Jorge Nash', 'ST-23-WD', 929448349, 'Sao Domingos de Rana', 'jnashvs@gmail.com', 2, 1, '2019-12-21 16:12:31', '2019-12-26 22:43:33'),
+(28, 'Dino Fernandes', 'clio', 9348585, 'Chão Bom', 'dinofernandes01@gmail.com', 2, -1, '2019-12-21 16:15:08', '2020-01-29 23:52:31'),
+(29, 'jnashvsteste2122', 'd77gvv', 11252, 'Sao Domingos de Rana', 'jnashvsteste@gmail.com', 2, -1, '2020-01-30 00:50:46', '2020-01-31 23:08:38'),
+(30, 'Joao Vasco', '223-2ere-3344', 928844747, 'Santa Luzia', 'jorge.silva@slingshot.pt', 2, 1, '2020-01-31 12:44:57', '2020-01-31 12:44:57'),
+(31, 'jjjjjj', 'ST-23-WD', 111, '1111111', 'jnashvs@gmail.com', 2, -1, '2020-01-31 12:59:14', '2020-01-31 23:08:30'),
+(32, 'Oscar', 'fwefwef', 45678, 'Torres', 'contatobogas@gmail.com', 2, 1, '2020-02-02 14:06:43', '2020-03-02 09:20:35');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `compra`
+--
+
+CREATE TABLE `compra` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `valor` int(11) NOT NULL,
+  `descricao` text COLLATE utf8mb4_unicode_ci,
+  `quantidade` int(11) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `suprimento_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `despesas`
+--
+
+CREATE TABLE `despesas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `estado` int(11) NOT NULL,
+  `descricao` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `valor` int(11) NOT NULL,
+  `funcionario_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `fornecedor`
+--
+
+CREATE TABLE `fornecedor` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `morada` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `fornecedor`
+--
+
+INSERT INTO `fornecedor` (`id`, `nome`, `telefone`, `morada`, `email`, `user_id`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'adega', 675432, 'praia - cv', 'adega@hotmail.com', 3, 1, '2019-10-23 20:42:07', '2020-01-29 23:54:32'),
+(2, 'toyota', 7564534, 'Assomada', 'totyota@cpm.fr', 3, 1, '2019-10-23 20:43:09', '2020-02-02 11:48:07'),
+(3, 'Audi', 1111111, 'tests', 'audi@car.pt', 2, 1, '2020-01-30 00:50:10', '2020-02-02 11:43:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `funcionario`
+--
+
+CREATE TABLE `funcionario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `categoria` int(11) NOT NULL,
+  `morada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `estado` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2019_09_13_220706_create_funcionario_table', 1),
+(3, '2019_09_13_220717_create_cliente_table', 1),
+(4, '2019_09_13_221409_create_servico_table', 1),
+(5, '2019_09_13_221421_create_suprimento_table', 1),
+(6, '2019_09_13_221432_create_agendamento_table', 1),
+(7, '2019_09_13_221729_create_despesa_table', 1),
+(8, '2019_09_13_222147_create_compra_table', 1),
+(9, '2019_09_13_222158_create_pagamento_table', 1),
+(10, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+(11, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+(12, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+(13, '2016_06_01_000004_create_oauth_clients_table', 2),
+(14, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2),
+(15, '2020_09_13_220717_create_fornecedor_table', 3),
+(16, '2019_12_21_192417_create_notifications_table', 4),
+(17, '2020_01_31_125030_create_jobs_table', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_id` bigint(20) UNSIGNED NOT NULL,
+  `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `data`, `read_at`, `created_at`, `updated_at`) VALUES
+('01210410-f1d9-4cdd-a274-5280a762686a', 'App\\Notifications\\ClienteCriado', 'App\\User', 2, '{\"cliente\":{\"nome\":\"Oscar\",\"morada\":\"Torres\",\"telefone\":\"45678\",\"veiculo\":\"trtysdbh\",\"email\":\"contatobogas@gmail.com\",\"user_id\":2,\"updated_at\":\"2020-02-02 14:06:43\",\"created_at\":\"2020-02-02 14:06:43\",\"id\":32}}', NULL, '2020-02-02 14:06:43', '2020-02-02 14:06:43'),
+('60f241da-adec-4b1c-b673-74f0e2a6f31c', 'App\\Notifications\\ClienteCriado', 'App\\User', 2, '{\"cliente\":{\"id\":31,\"nome\":\"jjjjjj\",\"veiculo\":\"ST-23-WD\",\"telefone\":111,\"morada\":\"1111111\",\"email\":\"jnashvs@gmail.com\",\"user_id\":2,\"estado\":1,\"created_at\":\"2020-01-31 12:59:14\",\"updated_at\":\"2020-01-31 22:55:33\"}}', NULL, '2020-01-31 22:55:33', '2020-01-31 22:55:33');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `oauth_access_tokens`
+--
+
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('06a5ff8dd3df921ea8bf353b9424e951f050ae1ec542c343eb6fa60895786799dad79955ad11628c', 2, 2, NULL, '[]', 0, '2019-10-09 23:11:08', '2019-10-09 23:11:08', '2020-10-10 00:11:08'),
+('0d51692a47d1f707ea67e491e2d775e0c28cc51f3764870d955e10223ba83e31f34ac54881a157c3', 2, 2, NULL, '[]', 0, '2019-10-19 20:47:27', '2019-10-19 20:47:27', '2020-10-19 21:47:27'),
+('1eb4aa8a78e7fb256aef0565db80a5f7578205747e22fa9f2033dcb36bffaa7b16afe9470141722c', 2, 2, NULL, '[]', 0, '2019-10-19 20:20:42', '2019-10-19 20:20:42', '2020-10-19 21:20:42'),
+('27dc5f6d2fd411de856975594094176e9720f0d41ce71021998e5e9e18e80498b7939978526bc4bc', 3, 2, NULL, '[]', 0, '2020-03-04 10:04:38', '2020-03-04 10:04:38', '2021-03-04 10:04:38'),
+('2cc93e14e670584bce3dc87fc7023d8bdc1e408dd9553f345332761fc01127707b1336d9af243317', 2, 2, NULL, '[]', 0, '2019-10-10 19:20:29', '2019-10-10 19:20:29', '2020-10-10 20:20:29'),
+('46230b8ee9f221bf0de5eb149d4ad0382d87de6afd3fce5dd2dc26e16daa624b4d36885a0013f6dc', 3, 2, NULL, '[]', 0, '2019-10-21 18:01:00', '2019-10-21 18:01:00', '2020-10-21 19:01:00'),
+('492b0a2c38cc9ad3c470d5627c34e840ddf8d23e93e6f6e8c856028e524e1000a9fe9d13fe310685', 2, 2, NULL, '[]', 0, '2019-10-19 20:22:28', '2019-10-19 20:22:28', '2020-10-19 21:22:28'),
+('55b737101d56e37a2f3b3e91c0f5c580d09d75cddea6d28c7d95526de2101c1bbeec2848005a94c6', 2, 2, NULL, '[]', 0, '2019-10-10 19:19:20', '2019-10-10 19:19:20', '2020-10-10 20:19:20'),
+('59b97027f1de053c9433f6c4f53d258931b34fc8bd40eb869572b450701eb6c7ee38d518e2437b0f', 3, 2, NULL, '[]', 0, '2019-10-23 20:04:15', '2019-10-23 20:04:15', '2020-10-23 21:04:15'),
+('7ad1bff68982c634da0c8a7b7821c48890251bfc0fb5197d942c5d2a17b0e8f590c1171d91d9481c', 2, 2, NULL, '[]', 0, '2019-10-19 20:41:25', '2019-10-19 20:41:25', '2020-10-19 21:41:25'),
+('883ea11f26c6268b76c71c29b83eed7d23ba0126a4fd8202c0b647357cdef90a9f6a6d9c9e90b25b', 2, 2, NULL, '[]', 0, '2019-10-19 20:43:28', '2019-10-19 20:43:28', '2020-10-19 21:43:28'),
+('a301ac8a76354c698dede2e5da0bb458c3ca115ab4ea709bdf1339043c82021484d3a6dc40a89909', 4, 2, NULL, '[]', 0, '2019-10-10 21:04:15', '2019-10-10 21:04:15', '2020-10-10 22:04:15'),
+('ba05abcd5dca56a1d81ef039d0771c289d8e8c13ad5ea50828af8b0eeb6423665b3803f0184e3a93', 3, 2, NULL, '[]', 0, '2020-03-04 10:04:22', '2020-03-04 10:04:22', '2021-03-04 10:04:22'),
+('d28cf8bfed7fae0c15ce3167528b3d856bd39911adf9f07dd3643b5fba82035095cc3d6c993d4508', 2, 2, NULL, '[]', 0, '2019-10-19 21:00:32', '2019-10-19 21:00:32', '2020-10-19 22:00:32'),
+('d2f36c52068362f9185c280e0960805c8b2f3e9bacef2e694b18692305f25ccae40f747ee772acd7', 4, 2, NULL, '[]', 0, '2019-10-10 21:04:28', '2019-10-10 21:04:28', '2020-10-10 22:04:28'),
+('e0484e85616251431bccde3147f24423a95ac3351e59b7c71c996ec065984b59628ace9e0258706b', 2, 2, NULL, '[]', 0, '2019-10-19 20:51:12', '2019-10-19 20:51:12', '2020-10-19 21:51:12'),
+('fb946e994e522f2ab9c11910935d2ccaa0a1159b9b041b1f047f87acbdd7b0640c821eefc27279db', 2, 2, NULL, '[]', 0, '2019-10-05 18:58:11', '2019-10-05 18:58:11', '2020-10-05 19:58:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Laravel Personal Access Client', 'L53qiW1LHsUOyOt8pIRzKHbpnmeqfYifQ1UL7iEN', 'http://localhost', 1, 0, 0, '2019-10-03 21:25:34', '2019-10-03 21:25:34'),
+(2, NULL, 'Laravel Password Grant Client', 'gcDJp0VNlMSSbGGCz7mkP2y86xkq46glWKVxBRlj', 'http://localhost', 0, 1, 0, '2019-10-03 21:25:34', '2019-10-03 21:25:34');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2019-10-03 21:25:34', '2019-10-03 21:25:34');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `oauth_refresh_tokens`
+--
+
+INSERT INTO `oauth_refresh_tokens` (`id`, `access_token_id`, `revoked`, `expires_at`) VALUES
+('04cb1ebf407407c66d40f8d0cceb42374a1db8b4218ebd5b75b80dadbb74602fae93bd0ecf0fdb5c', '06a5ff8dd3df921ea8bf353b9424e951f050ae1ec542c343eb6fa60895786799dad79955ad11628c', 0, '2020-10-10 00:11:08'),
+('20e800a319f48d871a51827f98ef6ede4d7a2e622837e7bf4bd4fc0d6da97b5db0336d188830b3f5', 'e8d55451ee535e0fff5f308f98a9869e66b852b8aea29eca80f8ec5af93c76404df82d95a60843e3', 0, '2020-10-10 22:00:03'),
+('2fc635bffd0a02721ac408f3c0b9ceecef7843e0091d9f0a8a5d09e0f9e62e35ec5e43e1c1b12cde', '442d6df9e1f4eaf398cd943f282764656ba369fd8665c573d8851fabaccd2d02151b7ffb5e1a7347', 0, '2020-10-04 14:12:18'),
+('3423aacf55b6c59338cd058c87f2a3ea9aed31996a3cdb014d6c993394f31203f983dc95b69483a2', '59b97027f1de053c9433f6c4f53d258931b34fc8bd40eb869572b450701eb6c7ee38d518e2437b0f', 0, '2020-10-23 21:04:15'),
+('3abde10fb70fadcea9e0a6b05f98d5f75bbeb2e4670d5377fd95d07b2d5a886dec4ee12e45ee784e', '55b737101d56e37a2f3b3e91c0f5c580d09d75cddea6d28c7d95526de2101c1bbeec2848005a94c6', 0, '2020-10-10 20:19:20'),
+('50fe7879bec469234cb5f1c09318daac700dacb5a445cc490142431b506d3d4275fef9035c69528f', 'eb859da05995ad78390a8c0d7fbb36935edc9ba4b516f618927422b5cac365acb991d699350806cc', 0, '2020-10-04 14:46:16'),
+('5a50755d07c63624c45d282316a653b4f2a5676d8d90689fa9963fe975815bdea606a3118bf0f29e', '6dd1fecd50428d4733bd8f594e5cfa22525d9ac494ba7dceb2a0bab96471bc20407e15fec992d885', 0, '2020-10-04 23:56:10'),
+('6501f80ec3e71d6f597348791bf2321ed902dedc8ca45875946471b49f04b56476a40264c285b158', 'd2f36c52068362f9185c280e0960805c8b2f3e9bacef2e694b18692305f25ccae40f747ee772acd7', 0, '2020-10-10 22:04:28'),
+('6e0f57958dcf8d1c5bbc1a7663ff8857c6045329dc5d84898529e158b9823d63173d6611291542ef', 'ac535f5638ba270349c9324e493428dace51adbf3262be515b39335d1d2712dfbd3128439e2d07ad', 0, '2020-10-10 21:41:40'),
+('84ef19fa944086a53f2b03c1afd53c2b4ac6e284bbb7d02c6b6b99e7351cabb16cbfd82efb58f63e', '4cca6aa050cca21bacbbd6b142d229d171a3594ea3b114998fc96c3b5e071e3685acbc65815f4030', 0, '2020-10-04 00:39:14'),
+('94d213ac457aaecc91a8fd594ed5c27f1f2f646629b0cf96a1b177d34a35ec30a0f70a136096b6a2', 'af7b65506629354c6a6e37c3fd682636ab9b88feb1e365ae4ed8a4ae92de8b3dda4dd5d2336da2e9', 0, '2020-10-04 16:50:10'),
+('9a82f789cf9930e5b37e2786c86fb3f044ced5570641a742ddf6f5db37bdaf56fed301d18849f077', '751cdc816cc5adbebffea82fb9a94ae0e8ee2b6f8af9b4b9ed3b260fe35f90d2d3660ee7eb4f570a', 0, '2020-10-04 00:41:03'),
+('9ba1d688267b0914580c9f1ca4869d60988afbbafaee4c110a7348f1d5cab5e746afcd9f273a19e0', '1a263b4f0743716fa8f4e5c66dc58b7264364fb9b399d45b68e3e5643aacd7148eeb0157017c01ab', 0, '2020-10-04 16:13:09'),
+('a30d1de85e7e01f9679fa85736160d68819ca817f69240ac2c70609a9ca60b0b74ca4d3149f179b4', '7ad1bff68982c634da0c8a7b7821c48890251bfc0fb5197d942c5d2a17b0e8f590c1171d91d9481c', 0, '2020-10-19 21:41:25'),
+('a64c426d4464b90963135ff8f618391ee2f6b965edea8834f1e8b60c8437937d535cc5a2dba7fc55', '1eb4aa8a78e7fb256aef0565db80a5f7578205747e22fa9f2033dcb36bffaa7b16afe9470141722c', 0, '2020-10-19 21:20:42'),
+('acb44b0d890ba43fb67cdf1bbd74cb9eabb6af33810b3ad8ad3284c2258807ea173914343c778568', 'e11ffc0a601aab703b8d3848ed7b45c79af3175cb6e8808bd54c97b23ad5f1b1afb2af2befb37727', 0, '2020-10-04 23:55:22'),
+('ad7cfac1194c10170de17016f83cebddba08da55c0bc164f37808bb699f556935217f7d1f7f336b0', 'e0484e85616251431bccde3147f24423a95ac3351e59b7c71c996ec065984b59628ace9e0258706b', 0, '2020-10-19 21:51:12'),
+('c0c552d2dce7dbe923d9f890915114dd004e584e4d672d636d45bcee43c97a1cb35c4bb5b734e467', '46230b8ee9f221bf0de5eb149d4ad0382d87de6afd3fce5dd2dc26e16daa624b4d36885a0013f6dc', 0, '2020-10-21 19:01:00'),
+('cbdafd10c4fc29322eabcdce9075df6ac4696870cad854a377d5ab783a29e755d684f3cf1c94e217', 'a301ac8a76354c698dede2e5da0bb458c3ca115ab4ea709bdf1339043c82021484d3a6dc40a89909', 0, '2020-10-10 22:04:15'),
+('cf918d6c5ae97be35eda9c8600ad33697dae96fca75b850177d3d20cbb4d8a99e21911544b3af8fd', 'ba05abcd5dca56a1d81ef039d0771c289d8e8c13ad5ea50828af8b0eeb6423665b3803f0184e3a93', 0, '2021-03-04 10:04:22'),
+('dd6e3f515c3c776e943041088f1908fb0b457ae08ad247e2e169aaf749c9238db9dc6ae9e8bdbdc9', 'd28cf8bfed7fae0c15ce3167528b3d856bd39911adf9f07dd3643b5fba82035095cc3d6c993d4508', 0, '2020-10-19 22:00:32'),
+('e11259e76ccd6ea7b48132a78adc60f1c5bab00a18a9a2fc2e0c2de1f114b1545d2fffe9a74ce436', '492b0a2c38cc9ad3c470d5627c34e840ddf8d23e93e6f6e8c856028e524e1000a9fe9d13fe310685', 0, '2020-10-19 21:22:28'),
+('e703681a5d5cf91700af9c49c1f43adedb0daecfeeaadba88fb88b8cd1cffa4420fb4f4d78dc40d5', '2cc93e14e670584bce3dc87fc7023d8bdc1e408dd9553f345332761fc01127707b1336d9af243317', 0, '2020-10-10 20:20:29'),
+('ec65ca28b4aa1f1c71c1cae04b4a9c919d655a4288af6c56391470d22cbe027269f242a3824e24cc', '27dc5f6d2fd411de856975594094176e9720f0d41ce71021998e5e9e18e80498b7939978526bc4bc', 0, '2021-03-04 10:04:38'),
+('ed00b113d3e1e07d9b314fc5ce9a2ec95300a0c72a252d011a4024df587abe79d97bd6c7e500b2e0', '0d51692a47d1f707ea67e491e2d775e0c28cc51f3764870d955e10223ba83e31f34ac54881a157c3', 0, '2020-10-19 21:47:27'),
+('f7b54bf8786b8613bafa99a79e40a1c7d47c8c051c17612f175b380dfe413def70fb586ddbc0d45e', '883ea11f26c6268b76c71c29b83eed7d23ba0126a4fd8202c0b647357cdef90a9f6a6d9c9e90b25b', 0, '2020-10-19 21:43:28'),
+('f8aaf426bb1630be6049e8cf330d90ba903b013789eebfd95e111e0dc562180cb09daf78124bf7ac', 'fb946e994e522f2ab9c11910935d2ccaa0a1159b9b041b1f047f87acbdd7b0640c821eefc27279db', 0, '2020-10-05 19:58:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pagamento`
+--
+
+CREATE TABLE `pagamento` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `estado` int(11) DEFAULT NULL,
+  `forma_pagamento` int(11) NOT NULL,
+  `valor_pago` int(11) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `servico_id` int(10) UNSIGNED NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `servico`
+--
+
+CREATE TABLE `servico` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao` text CHARACTER SET utf8,
+  `valor` int(11) DEFAULT '0',
+  `estado` int(11) DEFAULT '1',
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `tipoveiculo` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT 'Diferenciado'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `servico`
+--
+
+INSERT INTO `servico` (`id`, `nome`, `descricao`, `valor`, `estado`, `user_id`, `created_at`, `updated_at`, `tipoveiculo`) VALUES
+(1, 'Clinic Plus', 'plusss', 23, 1, 3, '2019-10-21 21:22:07', '2019-12-17 22:28:53', 'Grande'),
+(2, 'Clinic Premium', 'This study aims to evaluate the posture and balance in visually impaired people linked to the Cape Verde Association of the Visually Imp', 55, 1, 4, '2019-10-21 21:32:17', '2019-10-25 18:15:56', 'Medio'),
+(3, 'Excellent33', 'Lavagem clinic plus + Liq. Parabrisas Redex Plicação de Cera de Carnaúba Lavagem Tapetes Lubrificante de Portas e Amortecedores Entre Outros', 112, 1, 3, '2019-10-22 20:09:03', '2020-02-12 12:56:31', 'Medio'),
+(4, 'tests', NULL, 9999, -1, 2, '2020-01-30 00:54:22', '2020-02-02 14:30:54', 'Diferenciado'),
+(5, 'test now', NULL, 66777, -1, 2, '2020-01-30 01:00:56', '2020-02-02 14:30:47', 'Medio');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `suprimento`
+--
+
+CREATE TABLE `suprimento` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantidade` float DEFAULT '0',
+  `estado` int(11) DEFAULT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `unidade_medida` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `preco` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `suprimento`
+--
+
+INSERT INTO `suprimento` (`id`, `nome`, `quantidade`, `estado`, `user_id`, `created_at`, `updated_at`, `unidade_medida`, `preco`) VALUES
+(1, 'tttt', 444, 1, 2, '2020-02-10 22:49:04', '2020-02-10 22:49:04', '888', 666),
+(2, '333', 555, 1, 2, '2020-02-10 23:00:16', '2020-02-10 23:00:16', '78788', 5555);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL DEFAULT '3',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+(2, 'Jorge  Silva', 'jnashvs@gmail.com', NULL, '$2y$10$pyeoo/xNJ1991C3R9CmWReYr/ch/I7v6JcMlbbnvf1Tt2Y0pZM31G', 3, '7nojkwLMDu98eKVsja7JnzdTsqM7gBeXnnIGR9rr8DohFoxUvAF2r0TcqWPF', '2019-10-03 23:12:57', '2019-10-03 23:12:57'),
+(3, 'Mira Mendes', 'miramendes@hotmail.com', NULL, '$2y$10$GiyMnNsGz36mzu3VwZDts.aP4kQNSQ88cSWjV2iiQd93mL6ONEiSe', 3, 'hC3Yw9r9Y48UvXQoE4Vw1ePfCgG3sNrLVvj4sNcIZhzxQghKZ5Sp29R1r7Vg', '2019-10-10 20:39:16', '2019-10-10 20:39:16'),
+(4, 'Renato Dias', 'renatodias@hotmail.com', NULL, '$2y$10$1477iJovDK0F7dQ5HHSTC.rusxrg/Tuz/14ez2ogqoEm0.9nljvm.', 3, NULL, '2019-10-10 20:40:00', '2019-10-10 20:40:00');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `agendamento_user_id_foreign` (`user_id`),
+  ADD KEY `agendamento_cliente_id_foreign` (`cliente_id`);
+
+--
+-- Índices para tabela `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cliente_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `compra`
+--
+ALTER TABLE `compra`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `compra_user_id_foreign` (`user_id`),
+  ADD KEY `compra_suprimento_id_foreign` (`suprimento_id`);
+
+--
+-- Índices para tabela `despesas`
+--
+ALTER TABLE `despesas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `despesas_funcionario_id_foreign` (`funcionario_id`),
+  ADD KEY `despesas_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `fornecedor`
+--
+ALTER TABLE `fornecedor`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fornecedor_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `funcionario_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Índices para tabela `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`);
+
+--
+-- Índices para tabela `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Índices para tabela `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Índices para tabela `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Índices para tabela `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
+-- Índices para tabela `pagamento`
+--
+ALTER TABLE `pagamento`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pagamento_user_id_foreign` (`user_id`),
+  ADD KEY `pagamento_servico_id_foreign` (`servico_id`),
+  ADD KEY `pagamento_cliente_id_foreign` (`cliente_id`);
+
+--
+-- Índices para tabela `servico`
+--
+ALTER TABLE `servico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `servico_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `suprimento`
+--
+ALTER TABLE `suprimento`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `suprimento_user_id_foreign` (`user_id`);
+
+--
+-- Índices para tabela `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT de tabela `compra`
+--
+ALTER TABLE `compra`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `despesas`
+--
+ALTER TABLE `despesas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `fornecedor`
+--
+ALTER TABLE `fornecedor`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `funcionario`
+--
+ALTER TABLE `funcionario`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT de tabela `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de tabela `pagamento`
+--
+ALTER TABLE `pagamento`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `servico`
+--
+ALTER TABLE `servico`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela `suprimento`
+--
+ALTER TABLE `suprimento`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `agendamento`
+--
+ALTER TABLE `agendamento`
+  ADD CONSTRAINT `agendamento_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
+  ADD CONSTRAINT `agendamento_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `cliente`
+--
+ALTER TABLE `cliente`
+  ADD CONSTRAINT `cliente_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `compra`
+--
+ALTER TABLE `compra`
+  ADD CONSTRAINT `compra_suprimento_id_foreign` FOREIGN KEY (`suprimento_id`) REFERENCES `suprimento` (`id`),
+  ADD CONSTRAINT `compra_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `despesas`
+--
+ALTER TABLE `despesas`
+  ADD CONSTRAINT `despesas_funcionario_id_foreign` FOREIGN KEY (`funcionario_id`) REFERENCES `funcionario` (`id`),
+  ADD CONSTRAINT `despesas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `fornecedor`
+--
+ALTER TABLE `fornecedor`
+  ADD CONSTRAINT `fornecedor_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD CONSTRAINT `funcionario_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `pagamento`
+--
+ALTER TABLE `pagamento`
+  ADD CONSTRAINT `pagamento_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
+  ADD CONSTRAINT `pagamento_servico_id_foreign` FOREIGN KEY (`servico_id`) REFERENCES `servico` (`id`),
+  ADD CONSTRAINT `pagamento_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `servico`
+--
+ALTER TABLE `servico`
+  ADD CONSTRAINT `servico_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `suprimento`
+--
+ALTER TABLE `suprimento`
+  ADD CONSTRAINT `suprimento_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
