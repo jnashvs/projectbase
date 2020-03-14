@@ -1,13 +1,16 @@
-import Cliente from './components/Cliente.vue';
-import Funcionario from './components/Funcionario.vue';
-import Dash from './components/Dash.vue';
-//import Login from './components/auth/Login.vue';
-import Passport from './components/Passport.vue';
+import Cliente from './components/backoffice/Cliente.vue';
+import Fornecedor from './components/backoffice/Fornecedor.vue';
+import Dash from './components/backoffice/Dash.vue';
+import Servico from './components/backoffice/Servico.vue';
+import Produto from './components/backoffice/Produto.vue';
 
 
-/*import Login from './components/auth/Login'
-import Logout from './components/auth/Logout'
-import Register from './components/auth/Register'
+//import Login from './components/backoffice/auth/Login.vue';
+
+
+/*import Login from './components/backoffice/auth/Login'
+import Logout from './components/backoffice/auth/Logout'
+import Register from './components/backoffice/auth/Register'
 
 meta: {
       requiresVisitor: true,
@@ -20,8 +23,9 @@ meta: {
 // 2. criar e declarar router
 let routes = [
   { path: '/cliente', component: Cliente },
-  { path: '/funcionario', component: Funcionario },
-  { path: '/passport', component: Passport },
+  { path: '/fornecedor', component: Fornecedor },
+  { path: '/servico', component: Servico },
+  { path: '/produtos', component: Produto },
   { path: '/home/', component: Dash },
   //{ path: '/login', component: Login }
 

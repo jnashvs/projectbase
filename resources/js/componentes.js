@@ -26,22 +26,26 @@ Vue.use(VueProgressBar, {
 //------------ pagination --------
 Vue.component('pagination', require('laravel-vue-pagination'));
 
-//---------- passaport -----------
-Vue.component(
-  'passport-clients',
-  require('./components/passport/Clients.vue').default
-);
+//------ pageadress -----
+import PageAdress from './components/backoffice/PageAdress.vue';
+Vue.component('page-adress', PageAdress);
 
-Vue.component(
-  'passport-authorized-clients',
-  require('./components/passport/AuthorizedClients.vue').default
-);
+//------ ViewServico -----
+import ViewServico from './components/backoffice/ViewServico.vue';
+Vue.component('view-service', ViewServico);
 
-Vue.component(
-  'passport-personal-access-tokens',
-  require('./components/passport/PersonalAccessTokens.vue').default
-);
+//----- dropdown-notifications -------
+import Navbar from './components/backoffice/Navbar.vue';
+Vue.component('dropdown-notifications', Navbar);
+
 
 //------------ Fire -----------
 window.Fire =  new Vue();
+
+//------- vuelidate p/ validacao
+import Vuelidate from "vuelidate";
+Vue.use(Vuelidate);
+
+
+
 

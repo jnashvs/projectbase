@@ -13,12 +13,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Car Wash</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
+  <!--
+  <script>
+    /*window.Laravel = {
+      !!json_encode([
+        'csrfToken' => csrf_token(),
+      ]) !!
+    }; */
+  </script> -->
+  @if(!auth()->guest())
+  <script>
+    window.Laravel.userId = {
+      auth::user()->id
+    }
+  </script>
+  @endif
+
   <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/custom.css">
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -30,8 +47,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href=""><i class="fas fa-bars"></i></a>
         </li>
+
+        <dropdown-notifications :userid="{{ auth::user()->id }}" :unreads="{{ auth::user()->unreadNotifications }}"></dropdown-notifications>
+
       </ul>
-      <!-- SEARCH FORM -->
+      <!-- SEARCH FORM 
       <form class="form-inline ml-3">
         <div class="input-group input-group-sm">
           <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -42,6 +62,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </form>
+    -->
 
     </nav>
     <!-- /.navbar -->
@@ -63,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">{{Auth::user()->name}}</a>
+            <a href="#" class="d-block">{{auth::user()->name}}</a>
           </div>
         </div>
 
@@ -72,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <router-link to="/dash" class="nav-link">
+              <router-link to="/home" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt text-blue"></i>
                 <p>Dash</p>
               </router-link>
@@ -87,13 +108,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <router-link to="/cliente" class="nav-link">
+                  <router-link to="/agendamento" class="nav-link">
                     <i class="nav-icon fas fa-building"></i>
                     <p>Agendamento</p>
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/funcionario" class="nav-link">
+                  <router-link to="/pagamento" class="nav-link">
                     <i class="nav-icon fas fa-project-diagram"></i>
                     <p>Pagamentos</p>
                   </router-link>
@@ -111,13 +132,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <router-link to="/cliente" class="nav-link">
+                  <router-link to="/produtos" class="nav-link">
                     <i class="nav-icon fas fa-product"></i>
                     <p>+ Produtos</p>
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/funcionario" class="nav-link">
+                  <router-link to="/compras" class="nav-link">
                     <i class="nav-icon fas fa-project-diagram"></i>
                     <p>+ Compras</p>
                   </router-link>
@@ -134,15 +155,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <router-link to="/companies" class="nav-link">
+                  <router-link to="/servico" class="nav-link">
                     <i class="nav-icon fas fa-building"></i>
                     <p>Serviço</p>
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/projects" class="nav-link">
+                  <router-link to="/produtos" class="nav-link">
                     <i class="nav-icon fas fa-project-diagram"></i>
-                    <p>suprimento</p>
+                    <p>Produtos</p>
                   </router-link>
                 </li>
               </ul>
@@ -162,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link to="/funcionario" class="nav-link">
+                  <router-link to="/fornecedor" class="nav-link">
                     <i class="nav-icon fas fa-project-diagram"></i>
                     <p>Fornecedor</p>
                   </router-link>
@@ -206,12 +227,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="row mb-2">
             <div class="col-sm-6">
             </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Topic</li>
-              </ol>
-            </div><!-- /.col -->
+
+            <div id="components-demo">
+            </div>
+
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
@@ -220,16 +239,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Main content -->
       <div class="container">
 
-        @include('partials.errors')
-        @include('partials.success')
-
         <main class="py-9">
           {{--  @yield('content') --}}
           <router-view></router-view>
           <vue-progress-bar></vue-progress-bar>
 
         </main>
-
 
       </div>
 
@@ -243,8 +258,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="float-right d-none d-sm-inline">
         Anything you want
       </div>
+
+      <div class="newclass">
+        <p>teste yess</p>
+      </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; Jorge Varela</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->

@@ -19,17 +19,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('login', 'API\AuthController@login');
     Route::get('login', 'API\AuthController@login');
     Route::middleware('auth:api')->post('logout', 'API\AuthController@logout');
-
-    Route::get('findCliente', 'API\ClienteController@findCliente');
 });
 
 Route::resources([
     'cliente' => 'API\ClienteController',
-    //'loginapi' => 'API\AuthController',
+    'fornecedor' => 'API\FornecedorController',
+    'servico' => 'API\ServicoController',
+    'produto' => 'API\ProdutoController',
 ]);
 
-
-
-
+Route::get('findfornecedor', 'API\FornecedorController@findfornecedor');
+Route::get('findcliente', 'API\ClienteController@findcliente');
+Route::get('findservico', 'API\ServicoController@findservico');
 
 //Auth::routes();

@@ -24,7 +24,8 @@ class Cliente extends Model
         'morada',
         'telefone',
         'veiculo',
-        'email'
+        'email',
+        'user_id'
     ];
 
     public function messages()

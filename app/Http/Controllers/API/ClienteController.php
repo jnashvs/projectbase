@@ -4,10 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\ClienteResource;
+use App\Listeners\SendMailCustomer;
+use App\Events\CustomerRegistred;
+use Illuminate\Notifications\Notification;
+use App\User;
+use App\Notifications\ClienteCriado;
 
 class ClienteController extends Controller
 {
@@ -26,16 +32,20 @@ class ClienteController extends Controller
     public function index()
     {
         return ClienteResource::collection(Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->get());
-        //return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
     }
 
-    public function findCliente()
+    public function findcliente()
     {
-        if ($search = \Request::get('q')) {
-            return Cliente::where('nome', 'LIKE', "%$search%")
-                ->orderBy('id', 'desc')->paginate(5);
+        if ($search = \Request::get('query')) {
+            return ClienteResource::collection(
+                Cliente::where('nome', 'LIKE', "%$search%")
+                    ->where(function ($query) {
+                        $query->where('estado', '=', 1);
+                    })
+                    ->orderBy('id', 'desc')->get()
+            );
         } else {
-            return Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->paginate(5);
+            return ClienteResource::collection(Cliente::where('estado', '=', 1)->orderBy('id', 'desc')->get());
         }
     }
 
@@ -58,14 +68,27 @@ class ClienteController extends Controller
             ]
         );
 
-        return Cliente::create([
+        $cliente = Cliente::create([
             'nome' => $request->input('nome'),
             'morada' => $request->input('morada'),
             'telefone' => $request->input('telefone'),
             'veiculo' => $request->input('veiculo'),
             'email' => $request->input('email'),
-            'user_id' => 1,
+            'user_id' => Auth::user()->id
         ]);
+
+
+        if ($cliente) {
+
+            //when o invoke a event the listener´s automaticly executed
+            event(new CustomerRegistred($cliente));
+
+            $user = \App\User::find(auth()->user()->id);
+
+            \Notification::send($user, new ClienteCriado($cliente));
+            
+            return $cliente;
+        }
     }
 
     /**
@@ -97,10 +120,11 @@ class ClienteController extends Controller
             'telefone' => 'required|numeric'
         ]);
 
-        $cliente->update($request->all());
+        $clienteUpdated = $cliente->update($request->all());
 
-        if ($cliente)
-            return ['message', 'Dados Cliente atualizado com sucesso'];
+        if ($clienteUpdated) {
+            return ['message', 'Cliente updated sucessfully'];
+        }
     }
 
     /**

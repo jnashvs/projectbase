@@ -54,9 +54,13 @@ const router = new VueRouter({
 const app = new Vue({
   el: '#app',
   //store: store,
+  data: {
+    unreads: '',
+    userId: ''
+  },
   router,
   //render: app => app(App)
-  vuetify: new Vuetify()
+  vuetify: new Vuetify(),
 
 });
 
